@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoXo Encryption</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e0e0e0;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-section {
+            margin: 15px 0;
+        }
+
+        .input-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: #66afe9;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+
+        .convert-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .convert-button:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .input-section select, .input-section input[type="text"] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            padding: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DoXo Encryption</h1>
+
+    <div class="input-section">
+        <label for="type">Type:</label>
+        <select id="type">
+            <option value="None">None</option>
+            <option value="Number">Number</option>
+            <option value="DoXo">DoXo</option>
+        </select>
+    </div>
+
+    <div class="input-section">
+        <label for="input">Input:</label>
+        <input type="text" id="input" placeholder="Enter text">
+    </div>
+
+    <div class="input-section">
+        <button class="convert-button" onclick="convert()">Convert</button>
+    </div>
+
+    <div class="result" id="result">Result will be shown here</div>
+</div>
+
+<script>
+    const encryption = {
+        '1': 'd8',
+        '2': 'h3',
+        '3': 'v7',
+        '4': 'j0',
+        '5': '&1',
+        '6': 'f2',
+        '7': 's9',
+        '8': 'I3',
+        '9': 'c1',
+        '0': 'x0'
+    };
+
+    function convert() {
+        const type = document.getElementById('type').value;
+        const input = document.getElementById('input').value;
+        const resultDiv = document.getElementById('result');
+        
+        let result = '';
+        
+        if (type === 'Number') {
+            for (let char of input) {
+                if (encryption[char]) {
+                    result += encryption[char] + ' ';
+                } else {
+                    result += '? ';
+                }
+            }
+        } else if (type === 'DoXo') {
+            const reversedEncryption = Object.entries(encryption).reduce((acc, [key, value]) => {
+                acc[value] = key;
+                return acc;
+            }, {});
+            
+            for (let part of input.split(' ')) {
+                if (reversedEncryption[part]) {
+                    result += reversedEncryption[part];
+                } else {
+                    result += '?';
+                }
+            }
+        } else {
+            result = 'Please choose Type: Number or DoXo.';
+        }
+        
+        resultDiv.textContent = result.trim();
+    }
+</script>
+
+</body>
+</html>
